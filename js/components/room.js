@@ -1,6 +1,4 @@
 class RoomComponent extends HTMLElement {
-  data = {};
-
   constructor() {
     super();
 
@@ -15,26 +13,27 @@ class RoomComponent extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ["data"];
+    return ["roomid"];
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
-    if (name === "data" && oldValue !== newValue) {
-      this.data = JSON.parse(newValue);
-
-      this.renderRoom();
+    if (name === "roomid" && oldValue !== newValue) {
+      if (newValue) {
+        this.renderRoom();
+      }
     }
   }
 
   renderRoom() {
     const slot = this.shadowRoot.querySelector('slot[name="roomId"]');
-    slot.textContent = this.data.id;
+    slot.textContent = this.room.id;
   }
 
   handleRoomClick() {
     const conversationPane = document.querySelector("conversation-pane");
     if (conversationPane) {
-      conversationPane.setAttribute("roomid", this.data.id);
+      conversationPane.room = this.room;
+      conversationPane.setAttribute("roomid", this.room.id);
     }
   }
 }

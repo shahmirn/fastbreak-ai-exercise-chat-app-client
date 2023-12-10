@@ -9,18 +9,19 @@ class MessageComponent extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ["userid", "message"];
+    return ["messageid"];
   }
 
-  attributeChangedCallback(name, oldValue, newValue) {
-    if ((name === "userid" || name === "message") && oldValue !== newValue) {
-      this.renderMessage();
+  async attributeChangedCallback(name, oldValue, newValue) {
+    if (name === "messageid" && oldValue !== newValue) {
+      if (newValue) {
+        this.renderMessage();
+      }
     }
   }
 
   renderMessage() {
-    const { userId, message } = this.getAttributes();
-    if (!message) {
+    if (!this.message) {
       return;
     }
 
@@ -28,22 +29,15 @@ class MessageComponent extends HTMLElement {
     const templateContent = template.content.cloneNode(true);
     const slot = this.shadowRoot.querySelector("slot");
 
-    slot.textContent = message.text;
+    slot.textContent = this.message.text;
 
-    if (message.sender === userId) {
+    if (this.message.sender === this.userId) {
       slot.classList.add("sent");
     } else {
       slot.classList.add("received");
     }
 
     this.shadowRoot.appendChild(templateContent);
-  }
-
-  getAttributes() {
-    return {
-      userId: this.getAttribute("userid"),
-      message: JSON.parse(this.getAttribute("message")),
-    };
   }
 }
 

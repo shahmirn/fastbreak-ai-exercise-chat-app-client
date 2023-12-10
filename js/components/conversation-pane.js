@@ -35,8 +35,13 @@ class ConversationPaneComponent extends HTMLElement {
   }
 
   renderRoom() {
+    if (!this.room) {
+      return;
+    }
+
     const roomComponent = document.createElement("room-component");
-    roomComponent.setAttribute("data", JSON.stringify(this.room ?? {}));
+    roomComponent.room = this.room;
+    roomComponent.setAttribute("roomid", this.room.id);
 
     this.shadowRoot.appendChild(roomComponent);
   }
@@ -46,9 +51,10 @@ class ConversationPaneComponent extends HTMLElement {
 
     messages.forEach((message) => {
       const messageComponent = document.createElement("message-component");
+      messageComponent.message = message;
+      messageComponent.userId = userId;
 
-      messageComponent.setAttribute("userid", userId);
-      messageComponent.setAttribute("message", JSON.stringify(message));
+      messageComponent.setAttribute("messageid", message.id);
 
       this.shadowRoot.appendChild(messageComponent);
     });

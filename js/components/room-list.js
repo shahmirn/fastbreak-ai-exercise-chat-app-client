@@ -10,11 +10,12 @@ class RoomListComponent extends HTMLElement {
     if (name === "userid" && oldValue !== newValue) {
       if (newValue) {
         const rooms = await this.fetchRooms(newValue);
+        const room = rooms?.[0];
         this.renderRooms(rooms ?? []);
 
-        document
-          .querySelector("conversation-pane")
-          .setAttribute("roomid", rooms?.[0].id);
+        const conversationPane = document.querySelector("conversation-pane");
+        conversationPane.room = room;
+        conversationPane.setAttribute("roomid", room?.id);
       }
     }
   }
@@ -31,7 +32,8 @@ class RoomListComponent extends HTMLElement {
   renderRooms(rooms) {
     rooms.forEach((room) => {
       const roomComponent = document.createElement("room-component");
-      roomComponent.setAttribute("data", JSON.stringify(room));
+      roomComponent.room = room;
+      roomComponent.setAttribute("roomid", room.id);
 
       this.shadowRoot.appendChild(roomComponent);
     });
