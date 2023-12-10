@@ -31,10 +31,10 @@ class RoomComponent extends HTMLElement {
 
   handleRoomClick() {
     const conversationPane = document.querySelector("conversation-pane");
-    if (conversationPane) {
-      conversationPane.room = this.room;
-      conversationPane.setAttribute("roomid", this.room.id);
-    }
+    conversationPane.room = this.room;
+    conversationPane.setAttribute("roomid", this.room.id);
+
+    document.querySelector("add-message").setAttribute("roomid", this.room.id);
   }
 }
 

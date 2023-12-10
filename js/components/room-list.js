@@ -16,6 +16,8 @@ class RoomListComponent extends HTMLElement {
         const conversationPane = document.querySelector("conversation-pane");
         conversationPane.room = room;
         conversationPane.setAttribute("roomid", room?.id);
+
+        document.querySelector("add-message").setAttribute("roomid", room?.id);
       }
     }
   }

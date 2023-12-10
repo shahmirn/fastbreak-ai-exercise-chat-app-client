@@ -25,10 +25,7 @@ class MessageComponent extends HTMLElement {
       return;
     }
 
-    const template = document.getElementById("message-template");
-    const templateContent = template.content.cloneNode(true);
     const slot = this.shadowRoot.querySelector("slot");
-
     slot.textContent = this.message.text;
 
     if (this.message.sender === this.userId) {
@@ -36,8 +33,6 @@ class MessageComponent extends HTMLElement {
     } else {
       slot.classList.add("received");
     }
-
-    this.shadowRoot.appendChild(templateContent);
   }
 }
 

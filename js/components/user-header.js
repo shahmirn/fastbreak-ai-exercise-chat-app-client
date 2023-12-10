@@ -16,6 +16,7 @@ class UserHeader extends HTMLElement {
 
     document.querySelector("room-list").setAttribute("userid", user.id);
     document.querySelector("conversation-pane").setAttribute("userid", user.id);
+    document.querySelector("add-message").setAttribute("userid", user.id);
   }
 
   async fetchUserData() {

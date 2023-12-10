@@ -2,6 +2,7 @@ class ConversationPaneComponent extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
+    this.addMessageAddedListener();
   }
 
   static get observedAttributes() {
@@ -10,12 +11,16 @@ class ConversationPaneComponent extends HTMLElement {
 
   async attributeChangedCallback(name, oldValue, newValue) {
     if ((name === "userid" || name === "roomid") && oldValue !== newValue) {
-      const messages = await this.fetchMessages();
-
-      this.shadowRoot.innerHTML = "";
-      this.renderRoom();
-      this.renderMessages(messages ?? []);
+      void this.fetchAndRender();
     }
+  }
+
+  async fetchAndRender() {
+    const messages = await this.fetchMessages();
+
+    this.shadowRoot.innerHTML = "";
+    this.renderRoom();
+    this.renderMessages(messages ?? []);
   }
 
   async fetchMessages() {
@@ -58,6 +63,21 @@ class ConversationPaneComponent extends HTMLElement {
 
       this.shadowRoot.appendChild(messageComponent);
     });
+  }
+
+  addMessageAddedListener() {
+    document.addEventListener(
+      "messageAdded",
+      (event) => {
+        const { roomId: eventRoomId, userId: eventUserId } = event.detail;
+        const { roomId, userId } = this.getAttributes();
+
+        if (roomId === eventRoomId && userId === eventUserId) {
+          void this.fetchAndRender();
+        }
+      },
+      false
+    );
   }
 
   getAttributes() {
