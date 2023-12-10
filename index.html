@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>My Webpage</title>
+    <link rel="stylesheet" href="css/index.css" />
+  </head>
+  <body>
+    <template id="user-header-template">
+      <style>
+        :host {
+          text-align: right;
+          display: block;
+          padding: 0px 8px;
+          font-size: 24px;
+          font-weight: bold;
+        }
+      </style>
+      Welcome <slot></slot>
+    </template>
+
+    <template id="room-template">
+      <style>
+        :host {
+          display: block;
+          padding: 8px;
+          border-bottom: 1px solid gray;
+        }
+      </style>
+      Room: <slot name="roomId"></slot>
+    </template>
+
+    <div class="container">
+      <div class="leftPane">
+        <room-list id="roomList" userid=""></room-list>
+      </div>
+      <div class="rightPane">
+        <user-header></user-header>
+      </div>
+    </div>
+    <script src="js/config.js"></script>
+    <script src="js/components/user-header.js"></script>
+    <script src="js/components/room-list.js"></script>
+    <script src="js/components/room.js"></script>
+  </body>
+</html>
