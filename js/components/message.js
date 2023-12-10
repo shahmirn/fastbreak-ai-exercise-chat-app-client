@@ -2,9 +2,9 @@ class MessageComponent extends HTMLElement {
   constructor() {
     super();
 
-    const templateContent = document.getElementById("message-template").content;
-
     this.attachShadow({ mode: "open" });
+
+    const templateContent = document.getElementById("message-template").content;
     this.shadowRoot.appendChild(templateContent.cloneNode(true));
   }
 
@@ -26,7 +26,12 @@ class MessageComponent extends HTMLElement {
     }
 
     const slot = this.shadowRoot.querySelector("slot");
-    slot.textContent = this.message.text;
+
+    const container = document.createElement("div");
+    container.classList.add("message");
+    container.textContent = this.message.text;
+
+    slot.appendChild(container);
 
     if (this.message.sender === this.userId) {
       slot.classList.add("sent");

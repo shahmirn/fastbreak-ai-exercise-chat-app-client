@@ -2,6 +2,12 @@ class ConversationPaneComponent extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
+
+    const templateContent = document.getElementById(
+      "conversation-pane-template"
+    ).content;
+    this.shadowRoot.appendChild(templateContent.cloneNode(true));
+
     this.addMessageAddedListener();
   }
 
@@ -18,7 +24,9 @@ class ConversationPaneComponent extends HTMLElement {
   async fetchAndRender() {
     const messages = await this.fetchMessages();
 
-    this.shadowRoot.innerHTML = "";
+    const slot = this.shadowRoot.querySelector("slot");
+    slot.innerHTML = "";
+
     this.renderRoom();
     this.renderMessages(messages ?? []);
   }
@@ -48,12 +56,14 @@ class ConversationPaneComponent extends HTMLElement {
     roomComponent.room = this.room;
     roomComponent.setAttribute("roomid", this.room.id);
 
-    this.shadowRoot.appendChild(roomComponent);
+    const slot = this.shadowRoot.querySelector("slot");
+    slot.appendChild(roomComponent);
   }
 
   renderMessages(messages) {
     const { userId } = this.getAttributes();
 
+    const slot = this.shadowRoot.querySelector("slot");
     messages.forEach((message) => {
       const messageComponent = document.createElement("message-component");
       messageComponent.message = message;
@@ -61,7 +71,7 @@ class ConversationPaneComponent extends HTMLElement {
 
       messageComponent.setAttribute("messageid", message.id);
 
-      this.shadowRoot.appendChild(messageComponent);
+      slot.appendChild(messageComponent);
     });
   }
 

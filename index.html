@@ -31,26 +31,54 @@
       Room: <slot name="roomId"></slot>
     </template>
 
-    <template id="message-template">
+    <template id="conversation-pane-template">
       <style>
-        .message {
+        :host {
           display: block;
           padding: 8px;
         }
-        .sent {
+
+        room-component {
+          margin-bottom: 8px;
+        }
+      </style>
+      <slot></slot>
+    </template>
+
+    <template id="message-template">
+      <style>
+        .message-wrapper {
+          display: block;
+        }
+        .message-wrapper.sent {
           text-align: right;
+        }
+        .message-wrapper.received {
+          text-align: left;
+        }
+
+        .message {
+          display: inline-block;
+          padding: 8px;
+          margin-bottom: 4px;
+          border-radius: 8px;
+        }
+        .sent .message {
           background-color: lightblue;
         }
-        .received {
-          text-align: left;
+        .received .message {
           background-color: lightgreen;
         }
       </style>
-      <slot class="message"></slot>
+      <slot class="message-wrapper"></slot>
     </template>
 
     <template id="add-message-template">
       <style>
+        :host {
+          display: block;
+          padding: 8px;
+        }
         .container {
           display: flex;
           flex-direction: column;

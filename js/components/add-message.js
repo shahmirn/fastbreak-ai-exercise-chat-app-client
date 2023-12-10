@@ -2,11 +2,11 @@ class AddMessageComponent extends HTMLElement {
   constructor() {
     super();
 
+    this.attachShadow({ mode: "open" });
+
     const templateContent = document.getElementById(
       "add-message-template"
     ).content;
-
-    this.attachShadow({ mode: "open" });
     this.shadowRoot.appendChild(templateContent.cloneNode(true));
   }
 
