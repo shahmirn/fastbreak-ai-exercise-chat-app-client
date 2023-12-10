@@ -1,4 +1,6 @@
 class MessageComponent extends HTMLElement {
+  static observedAttributes = ["messageid"];
+
   constructor() {
     super();
 
@@ -6,10 +8,6 @@ class MessageComponent extends HTMLElement {
 
     const templateContent = document.getElementById("message-template").content;
     this.shadowRoot.appendChild(templateContent.cloneNode(true));
-  }
-
-  static get observedAttributes() {
-    return ["messageid"];
   }
 
   async attributeChangedCallback(name, oldValue, newValue) {

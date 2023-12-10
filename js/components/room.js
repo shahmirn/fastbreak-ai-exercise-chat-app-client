@@ -1,4 +1,6 @@
 class RoomComponent extends HTMLElement {
+  static observedAttributes = ["roomid"];
+
   constructor() {
     super();
 
@@ -10,10 +12,6 @@ class RoomComponent extends HTMLElement {
     this.addEventListener("click", () => {
       this.handleRoomClick();
     });
-  }
-
-  static get observedAttributes() {
-    return ["roomid"];
   }
 
   attributeChangedCallback(name, oldValue, newValue) {

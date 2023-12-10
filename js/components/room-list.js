@@ -3,6 +3,9 @@ class RoomListComponent extends HTMLElement {
 
   constructor() {
     super();
+  }
+
+  connectedCallback() {
     this.attachShadow({ mode: "open" });
   }
 

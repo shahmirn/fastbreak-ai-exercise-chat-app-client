@@ -1,16 +1,16 @@
 class UserHeader extends HTMLElement {
   constructor() {
     super();
+  }
 
+  async connectedCallback() {
     this.attachShadow({ mode: "open" });
 
     const templateContent = document.getElementById(
       "user-header-template"
     ).content;
     this.shadowRoot.appendChild(templateContent.cloneNode(true));
-  }
 
-  async connectedCallback() {
     const user = await this.fetchUserData();
     if (!user) {
       return;

@@ -1,4 +1,6 @@
 class ConversationPaneComponent extends HTMLElement {
+  static observedAttributes = ["userid", "roomid"];
+
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
@@ -9,10 +11,6 @@ class ConversationPaneComponent extends HTMLElement {
     this.shadowRoot.appendChild(templateContent.cloneNode(true));
 
     this.addMessageAddedListener();
-  }
-
-  static get observedAttributes() {
-    return ["userid", "roomid"];
   }
 
   async attributeChangedCallback(name, oldValue, newValue) {
