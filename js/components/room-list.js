@@ -3,12 +3,18 @@ class RoomListComponent extends HTMLElement {
 
   constructor() {
     super();
+    this.attachShadow({ mode: "open" });
   }
 
-  attributeChangedCallback(name, oldValue, newValue) {
+  async attributeChangedCallback(name, oldValue, newValue) {
     if (name === "userid" && oldValue !== newValue) {
       if (newValue) {
-        this.fetchRooms(newValue);
+        const rooms = await this.fetchRooms(newValue);
+        this.renderRooms(rooms ?? []);
+
+        document
+          .querySelector("conversation-pane")
+          .setAttribute("roomid", rooms?.[0].id);
       }
     }
   }
@@ -16,21 +22,19 @@ class RoomListComponent extends HTMLElement {
   async fetchRooms(userId) {
     try {
       const response = await fetch(`${window.baseUrl}/users/${userId}/rooms`);
-      const rooms = await response.json();
-      this.renderRooms(rooms);
+      return response.json();
     } catch (error) {
       console.error("Error fetching rooms:", error);
     }
   }
 
   renderRooms(rooms) {
-    const container = document.createElement("div");
     rooms.forEach((room) => {
       const roomComponent = document.createElement("room-component");
-      roomComponent.setAttribute("roomid", room.id);
-      container.appendChild(roomComponent);
+      roomComponent.setAttribute("data", JSON.stringify(room));
+
+      this.shadowRoot.appendChild(roomComponent);
     });
-    this.appendChild(container);
   }
 }
 

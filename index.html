@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <title>My Webpage</title>
+    <meta charset="utf-8" />
+    <title>Chat Interface</title>
     <link rel="stylesheet" href="css/index.css" />
   </head>
   <body>
@@ -25,22 +25,44 @@
           display: block;
           padding: 8px;
           border-bottom: 1px solid gray;
+          cursor: pointer;
         }
       </style>
       Room: <slot name="roomId"></slot>
     </template>
 
+    <template id="message-template">
+      <style>
+        .message {
+          display: block;
+          padding: 8px;
+        }
+        .sent {
+          text-align: right;
+          background-color: lightblue;
+        }
+        .received {
+          text-align: left;
+          background-color: lightgreen;
+        }
+      </style>
+      <slot class="message"></slot>
+    </template>
+
     <div class="container">
       <div class="leftPane">
-        <room-list id="roomList" userid=""></room-list>
+        <room-list class="leftPane" userid=""></room-list>
       </div>
       <div class="rightPane">
         <user-header></user-header>
+        <conversation-pane userid="" roomid=""></conversation-pane>
       </div>
     </div>
     <script src="js/config.js"></script>
     <script src="js/components/user-header.js"></script>
     <script src="js/components/room-list.js"></script>
     <script src="js/components/room.js"></script>
+    <script src="js/components/conversation-pane.js"></script>
+    <script src="js/components/message.js"></script>
   </body>
 </html>

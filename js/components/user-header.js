@@ -2,12 +2,11 @@ class UserHeader extends HTMLElement {
   constructor() {
     super();
 
-    this.attachShadow({ mode: "open" });
-
     const templateContent = document.getElementById(
       "user-header-template"
     ).content;
 
+    this.attachShadow({ mode: "open" });
     this.shadowRoot.appendChild(templateContent.cloneNode(true));
   }
 
@@ -15,7 +14,8 @@ class UserHeader extends HTMLElement {
     const user = await this.fetchUserData();
     this.renderUserName(user.fullName);
 
-    document.getElementById("roomList").setAttribute("userid", user.id);
+    document.querySelector("room-list").setAttribute("userid", user.id);
+    document.querySelector("conversation-pane").setAttribute("userid", user.id);
   }
 
   async fetchUserData() {
