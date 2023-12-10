@@ -1,5 +1,10 @@
 # UI for Chat Application
 
+Screenshot
+
+![Screenshot 2023-12-10 024623](https://github.com/shahmirn/fastbreak-ai-exercise-chat-app-client/assets/3029066/334f636b-84ec-420f-abd2-de9498e978c6)
+
+
 Feature Requirements:
 
 - A list of all ongoing conversations for the “logged in“ user.
