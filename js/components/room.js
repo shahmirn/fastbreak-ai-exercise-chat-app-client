@@ -25,8 +25,17 @@ class RoomComponent extends HTMLElement {
   }
 
   renderRoom() {
-    const slot = this.shadowRoot.querySelector('slot[name="roomId"]');
-    slot.textContent = this.room.id;
+    const roomIdSlot = this.shadowRoot.querySelector('slot[name="roomId"]');
+    roomIdSlot.textContent = this.room.id;
+
+    const receiverId = this.room.participants.find(
+      (participant) => participant !== this.getAttribute("userid")
+    );
+
+    const receiverNameSlot = this.shadowRoot.querySelector(
+      'slot[name="receiver"]'
+    );
+    receiverNameSlot.textContent = receiverId;
   }
 
   handleRoomClick() {

@@ -32,9 +32,12 @@ class RoomListComponent extends HTMLElement {
   }
 
   renderRooms(rooms) {
+    const userId = this.getAttribute("userid");
+
     rooms.forEach((room) => {
       const roomComponent = document.createElement("room-component");
       roomComponent.room = room;
+      roomComponent.setAttribute("userid", userId);
       roomComponent.setAttribute("roomid", room.id);
 
       this.shadowRoot.appendChild(roomComponent);

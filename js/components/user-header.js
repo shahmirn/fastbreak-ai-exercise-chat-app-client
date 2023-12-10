@@ -12,6 +12,10 @@ class UserHeader extends HTMLElement {
 
   async connectedCallback() {
     const user = await this.fetchUserData();
+    if (!user) {
+      return;
+    }
+
     this.renderUserName(user.fullName);
 
     document.querySelector("room-list").setAttribute("userid", user.id);

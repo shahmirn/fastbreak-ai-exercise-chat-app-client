@@ -52,8 +52,11 @@ class ConversationPaneComponent extends HTMLElement {
       return;
     }
 
+    const { userId } = this.getAttributes();
+
     const roomComponent = document.createElement("room-component");
     roomComponent.room = this.room;
+    roomComponent.setAttribute("userid", userId);
     roomComponent.setAttribute("roomid", this.room.id);
 
     const slot = this.shadowRoot.querySelector("slot");
