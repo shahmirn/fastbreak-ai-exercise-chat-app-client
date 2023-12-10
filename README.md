@@ -16,5 +16,6 @@ Implementation
 
 - CSS Grid for main layout
 - Web components to handle actual UI and functionality
+  - Templates for the components live in index.html
 - fetch for XHR
 - Defaulting to the first user returned from /users as the logged in user
