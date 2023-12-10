@@ -8,9 +8,13 @@ class ConversationPaneComponent extends HTMLElement {
     return ["userid", "roomid"];
   }
 
-  attributeChangedCallback(name, oldValue, newValue) {
+  async attributeChangedCallback(name, oldValue, newValue) {
     if ((name === "userid" || name === "roomid") && oldValue !== newValue) {
-      this.fetchMessages();
+      const messages = await this.fetchMessages();
+
+      this.shadowRoot.innerHTML = "";
+      this.renderRoom();
+      this.renderMessages(messages ?? []);
     }
   }
 
@@ -24,17 +28,22 @@ class ConversationPaneComponent extends HTMLElement {
       const response = await fetch(
         `${window.baseUrl}/rooms/${roomId}/messages`
       );
-      const messages = await response.json();
-      this.renderMessages(messages);
+      return response.json();
     } catch (error) {
       console.error("Error fetching messages:", error);
     }
   }
 
+  renderRoom() {
+    const roomComponent = document.createElement("room-component");
+    roomComponent.setAttribute("data", JSON.stringify(this.room ?? {}));
+
+    this.shadowRoot.appendChild(roomComponent);
+  }
+
   renderMessages(messages) {
     const { userId } = this.getAttributes();
 
-    this.shadowRoot.innerHTML = "";
     messages.forEach((message) => {
       const messageComponent = document.createElement("message-component");
 
